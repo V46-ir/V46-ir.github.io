@@ -437,31 +437,6 @@
     </div>
 
     <script>
-        // تشخیص IP ایران با استفاده از ipinfo.io
-        async function checkIranIP() {
-            try {
-                const response = await fetch('https://ipinfo.io/json?token=6e41c70012a6b9'); // توکن خود را اینجا قرار دهید
-                if (!response.ok) throw new Error('خطا در دریافت اطلاعات IP');
-                const data = await response.json();
-                return data.country === 'IR';
-            } catch (error) {
-                console.error('خطا:', error);
-                return false;
-            }
-        }
-
-        // بررسی IP کاربر در ابتدای لود شدن صفحه
-        async function initPage() {
-            const isIran = await checkIranIP();
-            if (!isIran) {
-                // حذف باکس دانلود و iframe
-                document.getElementById('download-section').remove();
-                document.getElementById('iframe-container').remove();
-            }
-            // مخفی کردن اسپینر
-            document.getElementById('loading-spinner').style.display = 'none';
-        }
-
         // نمایش iframe پس از کلیک روی دکمه دانلود
         document.getElementById('download-button').addEventListener('click', () => {
             document.getElementById('iframe-container').style.display = 'block';
@@ -474,8 +449,10 @@
             document.getElementById('app-iframe').src = '';
         });
 
-        // اجرای تابع initPage پس از لود شدن صفحه
-        window.onload = initPage;
+        // مخفی کردن اسپینر پس از بارگذاری صفحه
+        window.onload = function() {
+            document.getElementById("loading-spinner").style.display = "none";
+        }
     </script>
 </body>
 </html>
